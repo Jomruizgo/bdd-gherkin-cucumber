@@ -1,12 +1,12 @@
 # language: es
 @api
-Característica: Reservar un ticket para un evento
+Característica: Aceptación de solicitudes de reserva para eventos
   Como comprador
-  Quiero realizar una reserva para un evento de mi interés
-  Para asegurar mi asistencia
+  Quiero enviar una solicitud de reserva para un evento de mi interés
+  Para que el sistema la procese
 
-  Escenario: Realizar una reserva exitosa para un evento con disponibilidad
+  Escenario: Aceptación de una solicitud de reserva para un evento con disponibilidad
     Dado que existe un evento con tickets disponibles
     Cuando solicito la reserva de un ticket para dicho evento
-    Entonces la reserva debe ser aceptada exitosamente
-    Y el sistema debe confirmar el identificador del ticket reservado
+    Entonces la solicitud de reserva debe ser aceptada
+    Y el sistema debe confirmar la recepción de la solicitud

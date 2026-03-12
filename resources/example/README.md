@@ -19,22 +19,22 @@ La automatización aparece aquí como consecuencia del enfoque BDD, no como el f
 
 Se incluyen dos ejemplos:
 
-- **UI**: el comprador entra a la página principal de compra, selecciona un evento disponible, escribe su correo y hace clic en comprar.
-- **Backend**: un cliente backend envía una solicitud válida de reserva y recibe `202 Accepted`.
+- **UI**: el comprador inicia el proceso de compra de un evento disponible y el sistema le permite avanzar al pago.
+- **Backend**: el comprador solicita la reserva de un ticket para un evento disponible y el sistema acepta la solicitud.
 
 ## 2. Historias de Usuario base
 
 ### HU-UI-01 — Iniciar una compra desde la UI
 
 **Como** comprador  
-**quiero** entrar a la página principal de compra, seleccionar un evento disponible y registrar mi correo  
-**para** iniciar la compra de un ticket.
+**quiero** seleccionar un evento disponible y completar mi registro  
+**para** adquirir un ticket para el evento.
 
-### HU-BE-01 — Aceptar una reserva válida en backend
+### HU-BE-01 — Reservar un ticket desde backend
 
-**Como** consumidor del API del producer  
-**quiero** enviar una solicitud válida de reserva  
-**para** que el sistema la acepte de forma asíncrona.
+**Como** comprador  
+**quiero** solicitar la reserva de un ticket para un evento de mi interés  
+**para** asegurar mi asistencia.
 
 ## 3. Cómo se expresan en BDD con Gherkin
 
@@ -42,12 +42,12 @@ Se incluyen dos ejemplos:
 
 Se descompone en comportamiento observable:
 
-- existe al menos un evento disponible,
-- el usuario entra a la página principal,
-- selecciona un evento,
-- escribe correo,
-- pulsa comprar,
-- el sistema muestra el siguiente paso del flujo.
+- existe un evento disponible para la venta,
+- el comprador se encuentra en el portal de compra,
+- el comprador selecciona el evento que desea adquirir,
+- el comprador registra su correo electrónico,
+- el comprador confirma su intención de compra,
+- el sistema le permite proceder al pago.
 
 Eso se expresa en [src/test/resources/features/ui/ui_purchase.feature](src/test/resources/features/ui/ui_purchase.feature), donde Cucumber puede ejecutar el escenario tal como fue descrito.
 
@@ -55,12 +55,14 @@ Eso se expresa en [src/test/resources/features/ui/ui_purchase.feature](src/test/
 
 Se descompone en:
 
-- existe un evento con ticket disponible,
-- se envía un request válido a `POST /api/tickets/reserve`,
-- la API responde `202 Accepted`,
-- el cuerpo contiene el `ticketId`.
+- existe un evento con tickets disponibles,
+- el comprador solicita la reserva de un ticket para ese evento,
+- la solicitud es aceptada,
+- el sistema confirma la recepción de la solicitud.
 
 Eso se expresa en [src/test/resources/features/api/api_reservation.feature](src/test/resources/features/api/api_reservation.feature), manteniendo visible el comportamiento esperado antes de entrar al detalle técnico.
+
+Importante: en este ejemplo backend, recibir `202 Accepted` no significa que la reserva ya se haya completado exitosamente. Solo significa que la **solicitud de reserva fue aceptada** por el sistema y que su procesamiento continúa después.
 
 ## 4. Estructura
 
