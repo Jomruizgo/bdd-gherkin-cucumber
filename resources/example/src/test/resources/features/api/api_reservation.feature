@@ -1,12 +1,12 @@
 # language: es
 @api
-Característica: Aceptación de una reserva válida por la API
-  Como consumidor del backend
-  Quiero enviar una solicitud válida de reserva
-  Para que el sistema la acepte de forma asíncrona
+Característica: Reservar un ticket para un evento
+  Como comprador
+  Quiero realizar una reserva para un evento de mi interés
+  Para asegurar mi asistencia
 
-  Escenario: Enviar una reserva válida al producer
-    Dado que existe un evento con un ticket disponible
-    Cuando envío una solicitud válida de reserva al producer
-    Entonces la respuesta debería ser 202 Accepted
-    Y el cuerpo debería incluir el ticketId reservado
+  Escenario: Realizar una reserva exitosa para un evento con disponibilidad
+    Dado que existe un evento con tickets disponibles
+    Cuando solicito la reserva de un ticket para dicho evento
+    Entonces la reserva debe ser aceptada exitosamente
+    Y el sistema debe confirmar el identificador del ticket reservado

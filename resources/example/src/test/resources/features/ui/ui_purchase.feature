@@ -1,14 +1,14 @@
 # language: es
 @ui
-Característica: Iniciar una compra simple desde la interfaz
+Característica: Compra de tickets para eventos
   Como comprador
-  Quiero entrar a la página principal de compra, seleccionar un evento disponible y registrar mi correo
-  Para iniciar la compra de un ticket
+  Quiero seleccionar un evento disponible y completar mi registro
+  Para adquirir un ticket para el evento
 
-  Escenario: Iniciar una compra seleccionando un evento disponible
-    Dado que existe al menos un evento futuro con tickets disponibles
-    Y que ingreso a la página principal de compra
-    Cuando selecciono el evento disponible creado para la prueba
-    Y escribo el correo "comprador-bdd@example.com"
-    Y hago clic en el botón comprar
-    Entonces debería ver el formulario de pago
+  Escenario: Inicio de proceso de compra exitoso
+    Dado que existe un evento disponible para la venta
+    Y que me encuentro en el portal de compra
+    Cuando selecciono el evento para comprar
+    Y proporciono mi correo electrónico "comprador-bdd@example.com"
+    Y confirmo la intención de compra
+    Entonces el sistema debe permitirme proceder al pago
