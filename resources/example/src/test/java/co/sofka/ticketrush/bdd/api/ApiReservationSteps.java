@@ -54,13 +54,13 @@ public class ApiReservationSteps {
         context.setLastResponse(response);
     }
 
-    @Entonces("la reserva debe ser aceptada exitosamente")
-    public void laReservaDebeSerAceptadaExitosamente() {
+    @Entonces("la solicitud de reserva debe ser aceptada")
+    public void laSolicitudDeReservaDebeSerAceptada() {
         assertThat(context.getLastResponse().statusCode()).isEqualTo(202);
     }
 
-    @Entonces("el sistema debe confirmar el identificador del ticket reservado")
-    public void elSistemaDebeConfirmarElIdentificadorDelTicketReservado() {
+    @Entonces("el sistema debe confirmar la recepción de la solicitud")
+    public void elSistemaDebeConfirmarLaRecepcionDeLaSolicitud() {
         Response response = context.getLastResponse();
         assertThat(response.jsonPath().getLong("ticketId")).isEqualTo(context.getTicketId());
         assertThat(response.jsonPath().getString("message")).isNotBlank();
