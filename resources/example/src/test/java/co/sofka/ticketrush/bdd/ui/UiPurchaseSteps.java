@@ -20,24 +20,24 @@ public class UiPurchaseSteps {
         this.testDataApiClient = testDataApiClient;
     }
 
-    @Dado("que existe al menos un evento futuro con tickets disponibles")
-    public void queExisteAlMenosUnEventoFuturoConTicketsDisponibles() {
+    @Dado("que existe un evento disponible para la venta")
+    public void queExisteUnEventoDisponibleParaLaVenta() {
         var data = testDataApiClient.createFutureEventWithAvailableTickets(1);
         context.setEventId(data.eventId());
         context.setTicketId(data.firstTicketId());
         context.setEventName(data.eventName());
     }
 
-    @Dado("que ingreso a la página principal de compra")
-    public void queIngresoALaPaginaPrincipalDeCompra() {
+    @Dado("que me encuentro en el portal de compra")
+    public void queMeEncuentroEnElPortalDeCompra() {
         BrowserAutomation browser = context.getBrowserAutomation();
         browser.navigateTo(environment.uiBaseUrl());
         browser.waitForUrlMatching(".*/buy$");
         browser.waitForText("Compra de Tickets", 10000);
     }
 
-    @Cuando("selecciono el evento disponible creado para la prueba")
-    public void seleccionoElEventoDisponibleCreadoParaLaPrueba() {
+    @Cuando("selecciono el evento para comprar")
+    public void seleccionoElEventoParaComprar() {
         BrowserAutomation browser = context.getBrowserAutomation();
         String eventLinkSelector = String.format("a[href='/buy/%d']", context.getEventId());
         browser.waitForElement(eventLinkSelector, 10000);
@@ -46,18 +46,18 @@ public class UiPurchaseSteps {
         browser.waitForElement("#email", 10000);
     }
 
-    @Cuando("escribo el correo {string}")
-    public void escriboElCorreo(String email) {
+    @Cuando("proporciono mi correo electrónico {string}")
+    public void proporcionoMiCorreoElectronico(String email) {
         context.getBrowserAutomation().fill("#email", email);
     }
 
-    @Cuando("hago clic en el botón comprar")
-    public void hagoClicEnElBotonComprar() {
+    @Cuando("confirmo la intención de compra")
+    public void confirmoLaIntencionDeCompra() {
         context.getBrowserAutomation().click("button[type='submit']");
     }
 
-    @Entonces("debería ver el formulario de pago")
-    public void deberiaVerElFormularioDePago() {
+    @Entonces("el sistema debe permitirme proceder al pago")
+    public void elSistemaDebePermitirmeProcederAlPago() {
         BrowserAutomation browser = context.getBrowserAutomation();
         browser.waitForText("Completar Pago", 15000);
         assertThat(browser.getPageSource()).contains("Información de Pago");

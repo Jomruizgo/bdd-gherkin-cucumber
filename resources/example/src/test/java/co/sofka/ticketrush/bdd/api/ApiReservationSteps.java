@@ -23,16 +23,16 @@ public class ApiReservationSteps {
         this.testDataApiClient = testDataApiClient;
     }
 
-    @Dado("que existe un evento con un ticket disponible")
-    public void queExisteUnEventoConUnTicketDisponible() {
+    @Dado("que existe un evento con tickets disponibles")
+    public void queExisteUnEventoConTicketsDisponibles() {
         var data = testDataApiClient.createFutureEventWithAvailableTickets(1);
         context.setEventId(data.eventId());
         context.setTicketId(data.firstTicketId());
         context.setEventName(data.eventName());
     }
 
-    @Cuando("envío una solicitud válida de reserva al producer")
-    public void envioUnaSolicitudValidaDeReservaAlProducer() {
+    @Cuando("solicito la reserva de un ticket para dicho evento")
+    public void solicitoLaReservaDeUnTicketParaDichoEvento() {
         String reserveJson = String.format(
             "{\"eventId\":%d,\"ticketId\":%d,\"orderId\":\"BDD-ORDER-%d\",\"reservedBy\":\"bdd-backend@example.com\",\"expiresInSeconds\":300}",
             context.getEventId(),
@@ -54,13 +54,13 @@ public class ApiReservationSteps {
         context.setLastResponse(response);
     }
 
-    @Entonces("la respuesta debería ser 202 Accepted")
-    public void laRespuestaDeberiaSer202Accepted() {
+    @Entonces("la reserva debe ser aceptada exitosamente")
+    public void laReservaDebeSerAceptadaExitosamente() {
         assertThat(context.getLastResponse().statusCode()).isEqualTo(202);
     }
 
-    @Entonces("el cuerpo debería incluir el ticketId reservado")
-    public void elCuerpoDeberiaIncluirElTicketIdReservado() {
+    @Entonces("el sistema debe confirmar el identificador del ticket reservado")
+    public void elSistemaDebeConfirmarElIdentificadorDelTicketReservado() {
         Response response = context.getLastResponse();
         assertThat(response.jsonPath().getLong("ticketId")).isEqualTo(context.getTicketId());
         assertThat(response.jsonPath().getString("message")).isNotBlank();
