@@ -1,0 +1,87 @@
+plugins {
+    id 'java'
+}
+
+group = 'co.sofka.ticketrush'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    cucumberVersion = '7.22.2'
+    junitVersion = '5.10.2'
+    restAssuredVersion = '5.5.1'
+    seleniumVersion = '4.31.0'
+    assertjVersion = '3.27.3'
+    slf4jVersion = '2.0.17'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+dependencies {
+    testImplementation platform("org.junit:junit-bom:${junitVersion}")
+    testImplementation 'org.junit.platform:junit-platform-suite'
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-picocontainer:${cucumberVersion}"
+    testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
+    testImplementation "org.seleniumhq.selenium:selenium-java:${seleniumVersion}"
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    testRuntimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    systemProperty 'ui.base.url', System.getProperty('ui.base.url', 'http://localhost:3000')
+    systemProperty 'crud.base.url', System.getProperty('crud.base.url', 'http://localhost:8002')
+    systemProperty 'producer.base.url', System.getProperty('producer.base.url', 'http://localhost:8001')
+    systemProperty 'headless', System.getProperty('headless', 'true')
+    testLogging {
+        events = ['passed', 'skipped', 'failed']
+        exceptionFormat = 'short'
+        showStandardStreams = false
+    }
+}
+
+tasks.register('uiTest', Test) {
+    description = 'Ejecuta solo los escenarios BDD de UI.'
+    group = 'verification'
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    include '**/RunUiCucumberTest.class'
+}
+
+tasks.register('apiTest', Test) {
+    description = 'Ejecuta solo los escenarios BDD de backend/API.'
+    group = 'verification'
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    include '**/RunApiCucumberTest.class'
+}
+
+tasks.register('snippetDemo', Test) {
+    description = 'Ejecuta una demo de Cucumber con pasos sin implementar para mostrar los snippets Java sugeridos.'
+    group = 'verification'
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    include '**/SnippetGenerationDemo.class'
+    ignoreFailures = true
+    testLogging {
+        events = ['passed', 'skipped', 'failed']
+        exceptionFormat = 'short'
+        showStandardStreams = true
+    }
+}
+
+test {
+    include '**/Run*Test.class'
+}

@@ -1,0 +1,8 @@
+.gradle/
+build/
+.idea/
+*.iml
+
+# Local Gradle distributions downloaded manually
+gradle-*-bin.zip
+gradle-*-all.zip
