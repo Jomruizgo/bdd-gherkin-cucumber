@@ -73,7 +73,17 @@ Eso se expresa en [src/test/resources/features/api/api_reservation.feature](src/
 - `src/test/java/.../support`: apoyo para preparar datos de prueba en TicketRush
 - `src/test/java/.../runners`: suites/runners de Cucumber por tipo de prueba
 
-## 5. Requisitos
+## 5. Versión del sistema bajo prueba
+
+Este repositorio BDD está alineado explícitamente con la versión del sistema bajo prueba que fue publicada en `main` de TicketRush para esta presentación.
+
+- **Repo objetivo:** `Jomruizgo/ticketing_project_week1`
+- **Rama publicada:** `main`
+- **Commit exacto:** `e4ee9dcf75a277d9589746217c349c9b652c7f0c`
+
+La intención es que los escenarios descritos y ejecutados aquí se expliquen siempre en referencia a esa versión exacta del sistema.
+
+## 6. Requisitos
 
 Antes de correr estos ejemplos debe estar levantado TicketRush:
 
@@ -81,7 +91,7 @@ Antes de correr estos ejemplos debe estar levantado TicketRush:
 - CRUD: `http://localhost:8002`
 - Producer: `http://localhost:8001`
 
-## 6. Comandos
+## 7. Comandos
 
 Estos comandos ejecutan los escenarios BDD con Cucumber:
 
@@ -113,7 +123,7 @@ Esta tarea ejecuta una feature de demostración con pasos **intencionalmente no 
 Así, Cucumber imprime en consola los **snippets Java sugeridos** para crear los step definitions a partir del escenario Gherkin.
 La tarea está aislada y no afecta `uiTest`, `apiTest` ni `test`.
 
-## 7. URLs configurables
+## 8. URLs configurables
 
 Puedes sobrescribir por propiedades del sistema:
 
@@ -121,13 +131,13 @@ Puedes sobrescribir por propiedades del sistema:
 gradle uiTest -Dui.base.url=http://localhost:3000 -Dcrud.base.url=http://localhost:8002 -Dproducer.base.url=http://localhost:8001
 ```
 
-## 8. Observación importante
+## 9. Observación importante
 
 El ejemplo UI está pensado para ser **simple y demostrativo**.  
 No representa todavía una suite robusta de regresión.  
 La intención es enseñar claramente cómo una HU sencilla se transforma en comportamiento especificado con Gherkin y ejecutado con Cucumber.
 
-## 9. Demostración de snippets automáticos de Cucumber
+## 10. Demostración de snippets automáticos de Cucumber
 
 En este proyecto hay dos formas distintas de mostrar la relación entre **BDD, Gherkin y Cucumber**:
 
@@ -147,7 +157,7 @@ Importante:
 
 En otras palabras: este repositorio busca enseñar **BDD con Gherkin y Cucumber**; la automatización existe para volver ese comportamiento verificable.
 
-## 10. Patrón de abstracción usado en UI
+## 11. Patrón de abstracción usado en UI
 
 Los steps de UI no invocan Selenium directamente.
 
