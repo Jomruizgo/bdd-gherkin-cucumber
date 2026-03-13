@@ -25,7 +25,7 @@ Este informe presenta el análisis comparativo entre las Historias de Usuario (H
 
 | **HU Original** | **HU Refinada por SKAI (Instrucción)** | **Diferencias Detectadas e Impacto** |
 | :--- | :--- | :--- |
-| "As a Customer I want to select a specific seat, reserve it temporarily, add it to my cart, and complete payment so that I receive a valid ticket with QR and email confirmation" | **Se desglosó en 3 Historias Atómicas:**<br><br>**HU-01: Reserva Temporal:** Enfoque en el bloqueo (TTL 15 min), visualización de estados y temporizador.<br>**HU-02: Carrito y Pago:** Manejo de transacciones, validación de expiración y transición a `vendido`.<br>**HU-03: Emisión y Confirmación:** Generación de PDF con QR y registro de email para envío diferido. | 1. **Atomicidad (INVEST):** Se transformó de Épica a historias estimables.<br>2. **Reglas de Negocio:** Se añadió el **TTL de 15 min** y la **validación de expiración** durante el pago.<br>3. **Arquitectura:** Se especificó que el envío de email es **diferido** (asíncrono). |
+| "As a Customer I want to select a specific seat, reserve it temporarily, add it to my cart, and complete payment so that I receive a valid ticket with QR and email confirmation" | **Se desglosó en 3 Historias Atómicas:**<br><br>**Historia de Usuario 1: Selección y Reserva Temporal de Asiento**<br>Como Cliente, quiero seleccionar un asiento específico disponible en el mapa de un evento y reservarlo temporalmente, para asegurar que el asiento esté bloqueado a mi nombre mientras decido completar la compra.<br><br>**Historia de Usuario 2: Agregar Asiento Reservado al Carrito y Proceso de Pago**<br>Como Cliente, quiero agregar mi asiento reservado al carrito y realizar el pago correspondiente, para completar la compra y asegurar el acceso al evento.<br><br>**Historia de Usuario 3: Generación de Boleto Digital y Confirmación**<br>Como Cliente, quiero recibir un boleto digital con código QR y confirmación de mi compra, para poder acceder al evento de forma segura y tener constancia de mi transacción. | 1. **Atomicidad (INVEST):** Se transformó de Épica a historias estimables.<br>2. **Reglas de Negocio:** Se añadió el **TTL de 15 min**, validación de expiración y manejo de concurrencia.<br>3. **Arquitectura:** Se especificó que el envío de email es **diferido** y la orden queda `pendiente` en caso de error. |
 
 ---
 
@@ -41,45 +41,54 @@ Este informe presenta el análisis comparativo entre las Historias de Usuario (H
 
 | **HU Original** | **HU Refinada por SKAI (Instrucción)** | **Diferencias Detectadas e Impacto** |
 | :--- | :--- | :--- |
-| "Como organizador, quiero crear eventos y configurar los asientos del lugar para que se puedan vender entradas para mis eventos." | **Se desglosó en 4 Historias de Gestión (HU-05 a HU-08):**<br><br>**HU-05:** Crear Evento (Datos básicos e ID único).<br>**HU-06:** Configurar Asientos (Zonas, precios y mapas visuales).<br>**HU-07:** Editar Configuración (Con reglas de bloqueo si hay ventas).<br>**HU-08:** Guardar y Validar (Integridad de datos y confirmación). | 1. **Testeabilidad:** Se definieron criterios claros sobre qué datos deben persistir y notificaciones de error.<br>2. **Integridad:** Se incluyó el bloqueo de edición para asientos que ya tengan reservas activas.<br>3. **Precisión:** Se detallaron los campos obligatorios (recinto, capacidad). |
+| "Como organizador, quiero crear eventos y configurar los asientos del lugar para que se puedan vender entradas para mis eventos." | **Título: Creación de eventos y configuración de asientos**<br><br>Como organizador, quiero crear eventos y configurar los asientos del lugar para que se puedan vender entradas para mis eventos. Esto implica definir el evento con datos básicos (nombre, fecha, recinto, tipo), asignar mapas visuales de asientos con zonas, precios y disponibilidad, y garantizar que la configuración cumpla con reglas de negocio como la unicidad de asientos y la integridad de datos. | 1. **Testeabilidad:** Se definieron criterios claros sobre qué datos deben persistir y notificaciones de error.<br>2. **Integridad:** Se incluyó el bloqueo de edición para asientos que ya tengan reservas activas.<br>3. **Precisión:** Se detallaron los campos obligatorios (recinto, capacidad). |
 
 ---
 
 ## <a name="detalle-historias"></a>2. Detalle Completo de Historias Refinadas
 
-### <a name="hu-01"></a>HU-01: Selección y Reserva Temporal de Asiento Específico
+### <a name="hu-01"></a>Historia de Usuario 1: Selección y Reserva Temporal de Asiento
+**Título:** Selección y Reserva Temporal de Asiento Específico
+
 **Como** Cliente  
 **Quiero** seleccionar un asiento específico disponible en el mapa de un evento y reservarlo temporalmente  
 **Para** asegurar que el asiento esté bloqueado a mi nombre mientras decido completar la compra.
 
 *   **Criterios de Aceptación:**
-    1. Visualización de estados en tiempo real (disponible, reservado, vendido).
-    2. Bloqueo exclusivo con TTL de 15 minutos.
-    3. Liberación automática tras expiración.
-    4. Manejo de concurrencia: primer intento exitoso bloquea, el resto recibe error.
-    5. Temporizador visible con el tiempo restante.
+    1. El cliente puede visualizar el mapa de asientos de un evento con estados actualizados (disponible, reservado, vendido).
+    2. Al seleccionar un asiento disponible, el sistema lo reserva exclusivamente para el cliente durante 15 minutos (TTL).
+    3. Si el cliente no completa el proceso de compra en ese tiempo, el asiento se libera automáticamente y vuelve a estar disponible.
+    4. Si dos clientes intentan seleccionar el mismo asiento simultáneamente, solo el primero en confirmar la selección lo reserva; el segundo recibe un mensaje de no disponibilidad.
+    5. El sistema muestra un temporizador con el tiempo restante de la reserva.
 
-### <a name="hu-02"></a>HU-02: Agregar Asiento Reservado al Carrito y Realizar Pago
+### <a name="hu-02"></a>Historia de Usuario 2: Agregar Asiento Reservado al Carrito y Proceso de Pago
+**Título:** Agregar Asiento Reservado al Carrito y Realizar Pago
+
 **Como** Cliente  
 **Quiero** agregar mi asiento reservado al carrito y realizar el pago correspondiente  
 **Para** completar la compra y asegurar el acceso al evento.
 
 *   **Criterios de Aceptación:**
-    1. Validación de expiración antes de añadir al carrito.
-    2. Integración con simulador de pagos.
-    3. Transición a estado `vendido` solo si el pago ocurre dentro del TTL.
-    4. Manejo de errores en pagos tardíos (reserva ya expirada).
+    1. El cliente puede agregar uno o varios asientos reservados a su carrito.
+    2. El sistema no permite agregar asientos cuyo tiempo de reserva ha expirado.
+    3. El cliente puede ingresar los datos necesarios para el pago y confirmar la transacción.
+    4. Si el pago se realiza dentro del TTL, el asiento pasa a estado vendido.
+    5. Si el pago se procesa después de la expiración de la reserva, el sistema muestra un mensaje de error y no finaliza la compra.
+    6. En caso de fallo en el pago, el asiento permanece reservado hasta que expire el TTL.
 
-### <a name="hu-03"></a>HU-03: Emisión de Boleto Digital con QR y Confirmación de Compra
+### <a name="hu-03"></a>Historia de Usuario 3: Generación de Boleto Digital y Confirmación
+**Título:** Emisión de Boleto Digital con QR y Confirmación de Compra
+
 **Como** Cliente  
 **Quiero** recibir un boleto digital con código QR y confirmación de mi compra  
 **Para** poder acceder al evento de forma segura y tener constancia de mi transacción.
 
 *   **Criterios de Aceptación:**
-    1. Generación de PDF con QR único tras confirmación de pago.
-    2. Asociación unívoca entre cliente, asiento y boleto.
-    3. Registro de email para envío diferido (asíncrono).
-    4. Contingencia: estado `pendiente` si falla la generación del PDF.
+    1. Una vez confirmado el pago, el sistema genera un boleto digital en PDF con un código QR único.
+    2. El boleto se asocia únicamente al cliente y al asiento comprado.
+    3. El sistema almacena el correo electrónico del cliente para el envío posterior de la confirmación (el envío se realiza en un proceso diferido, no en tiempo real).
+    4. Si ocurre un error en la generación del boleto digital, la orden queda en estado pendiente y se notifica a soporte técnico.
+    5. El cliente puede visualizar un mensaje de confirmación en pantalla y descargar el boleto desde su perfil.
 
 ### <a name="hu-04"></a>HU-04: Exploración y Selección de Asientos para Reserva
 **Como** Visitante (autenticado o no)  
