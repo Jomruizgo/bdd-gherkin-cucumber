@@ -12,7 +12,7 @@ Este documento contiene los escenarios de prueba generados por la IA (**SKAI**) 
 
 ---
 
-## <a name="hu-01"></a>1. HU-01: Reserva Temporal y Gestión de Asientos
+## <a name="hu-01"></a>1. HU-01: Selección y Reserva Temporal de Asiento
 
 ### Escenarios Gherkin y Matriz de Ajustes (HU-01)
 
@@ -70,7 +70,7 @@ Este documento contiene los escenarios de prueba generados por la IA (**SKAI**) 
 
 ---
 
-## <a name="hu-05"></a>3. HU-05: Crear Evento (Admin)
+## <a name="hu-05"></a>3. HU-05: Gestión de Catálogo por Organizador
 
 ### Escenarios Gherkin y Matriz de Ajustes (HU-05)
 

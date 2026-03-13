@@ -103,12 +103,52 @@ Este informe presenta el análisis comparativo entre las Historias de Usuario (H
     5. Solicitud de login/registro solo al momento de intentar proceder a la compra.
 
 ### <a name="hu-05-08"></a>HU-05 a HU-08: Gestión de Catálogo por Organizador
-**Como** Organizador  
-**Quiero** crear eventos y configurar los asientos del lugar  
-**Para** que se puedan vender entradas para mis eventos.
 
-*   **Criterios de Aceptación (Generales):**
-    1. Registro de: nombre del evento, fecha, recinto y capacidad máxima.
-    2. Definición de zonas con mapas visuales y asignación de precios.
-    3. Bloqueo de edición de asientos si ya poseen reservas o ventas activas.
-    4. Notificaciones de éxito/error al guardar la configuración e integridad de datos.
+#### Historia de Usuario 5: Creación de Evento
+**Título:** Crear Evento
+**Como** Organizador  
+**Quiero** crear un nuevo evento con sus datos básicos  
+**Para** que esté disponible en el catálogo y se puedan configurar sus entradas.
+
+*   **Criterios de Aceptación:**
+    1. El organizador puede ingresar el nombre, fecha, tipo, recinto y capacidad máxima del evento.
+    2. El sistema genera un ID único (UUID v4) para cada evento.
+    3. Validación de campos obligatorios y formato de fecha (no anterior a la actual).
+    4. Notificación de éxito o error tras el intento de creación.
+
+#### Historia de Usuario 6: Configuración Inicial de Asientos
+**Título:** Configurar Asientos
+**Como** Organizador  
+**Quiero** configurar los asientos del evento con mapas visuales, zonas y precios  
+**Para** definir la oferta comercial del evento.
+
+*   **Criterios de Aceptación:**
+    1. Definición de zonas con mapas visuales y asignación de precios por zona.
+    2. Los asientos pasan a estado `Disponible` inmediatamente tras la configuración.
+    3. Validación de unicidad de asientos (no duplicados en el mismo recinto/evento).
+
+#### Historia de Usuario 7: Edición y Gestión de Asientos
+**Título:** Editar Configuración de Asientos
+**Como** Organizador  
+**Quiero** modificar la configuración de asientos después de la creación  
+**Para** ajustar precios o zonas según la demanda del mercado.
+
+*   **Criterios de Aceptación:**
+    1. El organizador puede editar zonas, precios y disponibilidad.
+    2. **Restricción:** No se pueden eliminar o modificar asientos que ya tengan reservas activas o ventas confirmadas.
+    3. Registro de auditoría de los cambios realizados.
+
+#### Historia de Usuario 8: Visualización y Persistencia de Catálogo
+**Título:** Visualizar y Guardar Configuración
+**Como** Organizador  
+**Quiero** previsualizar el mapa de asientos y persistir los cambios de forma segura  
+**Para** garantizar la integridad de la información presentada al público.
+
+*   **Criterios de Aceptación:**
+    1. Visualización del mapa real con zonas, precios y estados (Disponible/Reservado/Vendido).
+    2. Verificación de integridad de datos antes de guardar (consistencia entre capacidad y asientos mapeados).
+    3. Notificación de confirmación tras guardado exitoso o detalle de errores de validación.
+
+---
+
+## 4. Notas Técnicas de QA
