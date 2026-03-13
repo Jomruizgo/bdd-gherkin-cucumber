@@ -98,9 +98,7 @@ Este informe presenta el análisis comparativo entre las Historias de Usuario (H
 *   **Criterios de Aceptación:**
     1. Filtros de búsqueda (fecha, categoría, ubicación, precio).
     2. Mapa interactivo con disponibilidad en tiempo real.
-    3. Límite máximo de **6 asientos** por usuario por evento.
-    4. Bloqueo inmediato tras selección con cuenta regresiva visible.
-    5. Solicitud de login/registro solo al momento de intentar proceder a la compra.
+    3. Bloqueo inmediato tras selección con cuenta regresiva visible.
 
 ### <a name="hu-05-08"></a>HU-05 a HU-08: Gestión de Catálogo por Organizador
 
