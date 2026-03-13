@@ -20,7 +20,7 @@ Este informe presenta el análisis comparativo entre las Historias de Usuario (H
 
 | **HU Original** | **HU Refinada por SKAI (Instrucción)** | **Diferencias Detectadas e Impacto** |
 | :--- | :--- | :--- |
-| "Como cliente, quiero seleccionar un asiento específico, reservarlo temporalmente, agregarlo a mi carrito y completar el pago para recibir un boleto válido con código QR y confirmación por correo electrónico" | **Se desglosó en 3 Historias Atómicas:**<br><br>**Historia de Usuario 1: Selección y Reserva Temporal de Asiento**<br>Como Cliente, quiero seleccionar un asiento específico disponible en el mapa de un evento y reservarlo temporalmente, para asegurar que el asiento esté bloqueado a mi nombre mientras decido completar la compra.<br><br>**Historia de Usuario 2: Agregar Asiento Reservado al Carrito y Proceso de Pago**<br>Como Cliente, quiero agregar mi asiento reservado al carrito y realizar el pago correspondiente, para completar la compra y asegurar el acceso al evento.<br><br>**Historia de Usuario 3: Generación de Boleto Digital y Confirmación**<br>Como Cliente, quiero recibir un boleto digital con código QR y confirmación de mi compra, para poder acceder al evento de forma segura y tener constancia de mi transacción. | 1. **Ambigüedad y Granularidad (INVEST):** Se corrigió la mezcla de acciones inconexas (reserva, pago, emisión) en un solo enunciado, permitiendo que cada fase sea **Independiente** y **Estimable**. El impacto es un flujo de desarrollo incremental y testeable.<br>2. **Reglas de Dominio Críticas:** Se integró el concepto de **TTL de 15 min** y la gestión de concurrencia ("Double Booking") que la versión original ignoraba, mitigando fallos críticos de integridad en el inventario.<br>3. **Sincronización vs. Alcance MVP:** Se alineó el impacto de las notificaciones (QR/Email) como procesos diferidos, evitando que el usuario espere tiempos de red externos y clarificando el comportamiento ante errores técnicos reales. |
+| "Como cliente, quiero seleccionar un asiento específico, reservarlo temporalmente, agregarlo a mi carrito y completar el pago para recibir un boleto válido con código QR y confirmación por correo electrónico" | **Se desglosó en 3 Historias Atómicas:**<br><br>**[Historia de Usuario 1: Selección y Reserva Temporal de Asiento](#historia-de-usuario-1-selección-y-reserva-temporal-de-asiento)**<br>Como Cliente, quiero seleccionar un asiento específico disponible en el mapa de un evento y reservarlo temporalmente, para asegurar que el asiento esté bloqueado a mi nombre mientras decido completar la compra.<br><br>**[Historia de Usuario 2: Agregar Asiento Reservado al Carrito y Proceso de Pago](#historia-de-usuario-2-agregar-asiento-reservado-al-carrito-y-proceso-de-pago)**<br>Como Cliente, quiero agregar mi asiento reservado al carrito y realizar el pago correspondiente, para completar la compra y asegurar el acceso al evento.<br><br>**[Historia de Usuario 3: Generación de Boleto Digital y Confirmación](#historia-de-usuario-3-generación-de-boleto-digital-y-confirmación)**<br>Como Cliente, quiero recibir un boleto digital con código QR y confirmación de mi compra, para poder acceder al evento de forma segura y tener constancia de mi transacción. | 1. **Ambigüedad y Granularidad (INVEST):** Se corrigió la mezcla de acciones inconexas (reserva, pago, emisión) en un solo enunciado, permitiendo que cada fase sea **Independiente** y **Estimable**. El impacto es un flujo de desarrollo incremental y testeable.<br>2. **Reglas de Dominio Críticas:** Se integró el concepto de **TTL de 15 min** y la gestión de concurrencia ("Double Booking") que la versión original ignoraba, mitigando fallos críticos de integridad en el inventario.<br>3. **Sincronización vs. Alcance MVP:** Se alineó el impacto de las notificaciones (QR/Email) como procesos diferidos, evitando que el usuario espere tiempos de red externos y clarificando el comportamiento ante errores técnicos reales. |
 
 ---
 
@@ -28,7 +28,7 @@ Este informe presenta el análisis comparativo entre las Historias de Usuario (H
 
 | **HU Original** | **HU Refinada por SKAI (Instrucción)** | **Diferencias Detectadas e Impacto** |
 | :--- | :--- | :--- |
-| "Como visitante, quiero explorar eventos, lugares y mapas de asientos para poder encontrar eventos y elegir asientos para reservar." | **HU-04: Exploración y Selección de Asientos para Reserva**<br><br>**Como** Visitante (autenticado o no), **quiero** explorar el catálogo de eventos con filtros y mapas interactivos, **para** encontrar eventos de interés y seleccionar asientos específicos para reservarlos. | 1. **Clarificación de Perfiles y Accesibilidad:** Se definió el rol "Visitante" (anónimo vs. registrado), permitiendo diseñar políticas de **CORS** y seguridad específicas para la fase de descubrimiento sin obligar al login prematuro.<br>2. **Alcance Funcional Deteriorado (INVEST):** La versión original carecía de detalles medibles. Se desglosó el alcance en filtros (fecha, categoría, rango de precios) y niveles de visualización, permitiendo una arquitectura de búsqueda optimizada que soporta paginación y caché.<br>3. **Flujo de Pre-selección e Interacción:** Se resolvió la ambigüedad sobre cómo el usuario interactúa con el mapa. El impacto es una UI que permite pre-seleccionar asientos y visualizar disponibilidad en tiempo real, facilitando la transición al flujo de reserva una vez que el usuario toma una decisión. |
+| "Como visitante, quiero explorar eventos, lugares y mapas de asientos para poder encontrar eventos y elegir asientos para reservar." | **[HU-04: Exploración y Selección de Asientos para Reserva](#historia-de-usuario-4-exploración-y-selección-de-asientos-para-reserva-en-eventos)**<br><br>**Como** Visitante (autenticado o no), **quiero** explorar el catálogo de eventos con filtros y mapas interactivos, **para** encontrar eventos de interés y seleccionar asientos específicos para reservarlos. | 1. **Clarificación de Perfiles y Accesibilidad:** Se definió el rol "Visitante" (anónimo vs. registrado), permitiendo diseñar políticas de **CORS** y seguridad específicas para la fase de descubrimiento sin obligar al login prematuro.<br>2. **Alcance Funcional Deteriorado (INVEST):** La versión original carecía de detalles medibles. Se desglosó el alcance en filtros (fecha, categoría, rango de precios) y niveles de visualización, permitiendo una arquitectura de búsqueda optimizada que soporta paginación y caché.<br>3. **Flujo de Pre-selección e Interacción:** Se resolvió la ambigüedad sobre cómo el usuario interactúa con el mapa. El impacto es una UI que permite pre-seleccionar asientos y visualizar disponibilidad en tiempo real, facilitando la transición al flujo de reserva una vez que el usuario toma una decisión. |
 
 ---
 
@@ -36,7 +36,7 @@ Este informe presenta el análisis comparativo entre las Historias de Usuario (H
 
 | **HU Original** | **HU Refinada por SKAI (Instrucción)** | **Diferencias Detectadas e Impacto** |
 | :--- | :--- | :--- |
-| "Como organizador, quiero crear eventos y configurar los asientos del lugar para que se puedan vender entradas para mis eventos." | **Título: Creación de eventos y configuración de asientos**<br><br>Como organizador, quiero crear eventos y configurar los asientos del lugar para que se puedan vender entradas para mis eventos. Esto implica definir el evento con datos básicos (nombre, fecha, recinto, tipo), asignar mapas visuales de asientos con zonas, precios y disponibilidad, y garantizar que la configuración cumpla con reglas de negocio como la unicidad de asientos y la integridad de datos. | 1. **Robustez e Integridad (Testeabilidad):** Se definieron restricciones físicas (VARCHAR, tipos de datos) y reglas de unicidad, asegurando que el sistema rechace registros inconsistentes o duplicados.<br>2. **Bloqueo Operativo:** Se introdujo la restricción de edición para eventos con reservas activas, impactando directamente en la estabilidad operativa y evitando que cambios del admin alteren transacciones en curso.<br>3. **Identificación Unívoca:** Se especificó el uso de **UUID v4**, garantizando la trazabilidad del evento en toda la infraestructura de microservicios. 
+| "Como organizador, quiero crear eventos y configurar los asientos del lugar para que se puedan vender entradas para mis eventos." | **[Título: Creación de eventos y configuración de asientos](#historia-de-usuario-5-creación-de-eventos-y-configuración-de-asientos)**<br><br>Como organizador, quiero crear eventos y configurar los asientos del lugar para que se puedan vender entradas para mis eventos. Esto implica definir el evento con datos básicos (nombre, fecha, recinto, tipo), asignar mapas visuales de asientos con zonas, precios y disponibilidad, y garantizar que la configuración cumpla con reglas de negocio como la unicidad de asientos y la integridad de datos. | 1. **Robustez e Integridad (Testeabilidad):** Se definieron restricciones físicas (VARCHAR, tipos de datos) y reglas de unicidad, asegurando que el sistema rechace registros inconsistentes o duplicados.<br>2. **Bloqueo Operativo:** Se introdujo la restricción de edición para eventos con reservas activas, impactando directamente en la estabilidad operativa y evitando que cambios del admin alteren transacciones en curso.<br>3. **Identificación Unívoca:** Se especificó el uso de **UUID v4**, garantizando la trazabilidad del evento en toda la infraestructura de microservicios. 
 
 **NOTA**: En mi opinión SKAI tuvo una alucinación en esta parte ya que si en teoria debiamos cumplir con los principios invest, en este caso me refina la HU a una mucho más grande, por lo que no me pareció que me haya dado una respuesta óptima en esta parte.|
 
@@ -165,83 +165,3 @@ Como organizador, quiero crear eventos y configurar los asientos del lugar para 
    **y** los asientos disponibles deben mostrarse correctamente.  
 
 ---
-
-**Desglose en Sub-tareas (Hijos de la Historia):**
-
-1. **Crear Evento:**  
-   - Título: Crear Evento  
-   - Descripción: Como organizador, quiero poder crear eventos con datos básicos (nombre, fecha, tipo, recinto, capacidad máxima).  
-   - Criterios de Aceptación:  
-     - El organizador puede ingresar el nombre, fecha, tipo, recinto y capacidad máxima del evento.  
-     - El evento debe tener un ID único.  
-     - La creación del evento debe ser confirmada por una notificación de éxito o error.
-
-2. **Configurar Asientos:**  
-   - Título: Configurar Asientos  
-   - Descripción: Como organizador, quiero poder configurar los asientos del evento con mapas visuales, zonas, precios y disponibilidad.  
-   - Criterios de Aceptación:  
-     - El organizador puede definir zonas con mapas visuales y asignar precios a cada zona.  
-     - Los asientos deben estar disponibles para la venta tras la configuración.  
-     - La configuración debe cumplir con la regla de unicidad de asientos.
-
-3. **Editar Configuración de Asientos:**  
-   - Título: Editar Configuración de Asientos  
-   - Descripción: Como organizador, quiero poder editar la configuración de asientos después de la creación.  
-   - Criterios de Aceptación:  
-     - El organizador puede editar zonas, precios y disponibilidad de asientos.  
-     - La edición debe estar limitada por reglas de negocio (por ejemplo, no se pueden eliminar asientos que ya están reservados).
-
-4. **Guardar Configuración de Asientos:**  
-   - Título: Guardar Configuración de Asientos  
-   - Descripción: Como organizador, quiero poder guardar la configuración de asientos y recibir confirmación de éxito o error.  
-   - Criterios de Aceptación:  
-     - Al guardar la configuración, el sistema debe verificar la integridad de los datos y la conformidad con reglas de negocio.  
-     - El organizador debe recibir una notificación de éxito o error.
-
-5. **Visualizar Asientos:**  
-   - Título: Visualizar Asientos  
-   - Descripción: Como organizador, quiero poder visualizar el mapa visual de asientos con zonas y precios correspondientes.  
-   - Criterios de Aceptación:  
-     - El mapa visual debe mostrar todas las zonas con precios y asientos disponibles.  
-     - Los asientos reservados no deben estar disponibles para selección.
-
----
-
-### 2.2. Casos de prueba representativos derivados del refinamiento
-
-Los mensajes compartidos incluían listados amplios de casos de prueba. A continuación se documentan los casos representativos que sí quedaron claramente identificables en el insumo recibido, redactados en formato homogéneo para este informe.
-
-#### HU-01 / Reserva temporal
-
-**Caso de prueba 1: Bloqueo de asiento exitoso y visualización de temporizador**
-
-```gherkin
-Dado que un cliente accede al catálogo de eventos y selecciona un asiento disponible
-Cuando solicita reservar el asiento
-Entonces el asiento aparece en estado reservado para ese cliente
-Y se inicia un temporizador de 15 minutos visible para el cliente
-```
-
-#### HU-04 / Exploración y descubrimiento
-
-**Caso de prueba 1: Visualización de eventos con filtros básicos**
-
-```gherkin
-Dado que el visitante accede al catálogo de eventos
-Cuando aplica filtros por fecha, tipo de evento y ubicación
-Entonces se muestran únicamente los eventos que cumplen los criterios seleccionados
-```
-
-#### HU-05 / Gestión de catálogo por organizador
-
-**Caso de prueba 1: Creación exitosa de evento con datos válidos**
-
-```gherkin
-Dado que un administrador inicia sesión en la plataforma
-Y accede a la opción para crear un nuevo evento
-Cuando registra la información requerida con datos válidos
-Entonces el sistema crea el evento correctamente
-Y le asigna un identificador único
-```
-
-
