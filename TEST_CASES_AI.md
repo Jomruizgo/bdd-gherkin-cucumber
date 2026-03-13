@@ -1,6 +1,6 @@
 # Matriz de Casos de Prueba - IA vs Refinamiento Humano
 
-Este documento contiene los escenarios de prueba generados por la IA (**SKAI**) en lenguaje Gherkin, junto con la validación y ajustes técnicos realizados por el equipo de QA basándose en la arquitectura del proyecto (**Ticketing Platform MVP**).
+Este documento contiene los escenarios de prueba generados por la IA (**SKAI**) en lenguaje Gherkin, junto con la validación y ajustes técnicos realizados por el equipo de QA basándose en la arquitectura del proyecto (**Ticketing Platform MVP**). Hubo casos en los cuáles el refinamiento de las HU se baso en dividir sus responsabilidades, para ello se tomo solo la primera HU dividida para generarle sus test_cases respectivos.
 
 ---
 
