@@ -93,44 +93,71 @@ Antes de correr estos ejemplos debe estar levantado TicketRush:
 - CRUD: `http://localhost:8002`
 - Producer: `http://localhost:8001`
 
+Además, ten presente que el proyecto Gradle de este ejemplo está en esta misma carpeta: `resources/example`.
+
 ## 7. Comandos
 
-Estos comandos ejecutan los escenarios BDD con Cucumber:
+Los siguientes bloques están pensados para **copiar y pegar directamente desde la raíz del repositorio**.
+Usan el wrapper del proyecto (`./gradlew`) dentro de `resources/example`, que es donde están `build.gradle`, `settings.gradle` y la configuración de Cucumber.
 
 ### Ejecutar solo backend
 
 ```bash
-gradle apiTest
+cd resources/example
+./gradlew apiTest
 ```
 
 ### Ejecutar solo UI
 
 ```bash
-gradle uiTest
+cd resources/example
+./gradlew uiTest
+```
+
+Ese comando corre la UI en **modo headless** por defecto.
+
+### Ejecutar UI viendo el navegador
+
+```bash
+cd resources/example
+./gradlew uiTest -Dheadless=false
 ```
 
 ### Ejecutar todo
 
 ```bash
-gradle test
+cd resources/example
+./gradlew test
 ```
 
 ### Demostrar generación automática de plantillas Java desde Gherkin
 
 ```bash
-gradle snippetDemo
+cd resources/example
+./gradlew snippetDemo
 ```
 
 Esta tarea ejecuta una feature de demostración con pasos **intencionalmente no implementados**.
 Así, Cucumber imprime en consola los **snippets Java sugeridos** para crear los step definitions a partir del escenario Gherkin.
 La tarea está aislada y no afecta `uiTest`, `apiTest` ni `test`.
 
-## 8. URLs configurables
-
-Puedes sobrescribir por propiedades del sistema:
+Si ya estás ubicado dentro de `resources/example`, entonces puedes ejecutar directamente:
 
 ```bash
-gradle uiTest -Dui.base.url=http://localhost:3000 -Dcrud.base.url=http://localhost:8002 -Dproducer.base.url=http://localhost:8001
+./gradlew apiTest
+./gradlew uiTest
+./gradlew uiTest -Dheadless=false
+./gradlew test
+./gradlew snippetDemo
+```
+
+## 8. URLs configurables
+
+Puedes sobrescribir por propiedades del sistema. Por ejemplo, para correr la UI con navegador visible y URLs explícitas:
+
+```bash
+cd resources/example
+./gradlew uiTest -Dheadless=false -Dui.base.url=http://localhost:3000 -Dcrud.base.url=http://localhost:8002 -Dproducer.base.url=http://localhost:8001
 ```
 
 ## 9. Observación importante
